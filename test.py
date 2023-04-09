@@ -54,13 +54,13 @@ def _regi():
 			
 			users.append({'name':name,'login':username,'password':password,'status':'USR'})
 			save_users()
-			return render_template('login.html')
+			return redirect(url_for('login'),301)
 	
 
 	# otherwise handle the GET request
 	return render_template('regi.html')
 @app.route('/login',methods=['GET', 'POST'])
-def _iogin():
+def login():
 	if request.method == 'POST':
 		username = request.form.get('login')
 		password = request.form.get('password')
