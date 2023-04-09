@@ -1,0 +1,55 @@
+
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Этические вопросы искусственного интеллекта</title>
+  <style type="text/css">
+	h5.dline {
+	line-height: 0.01;
+	}
+	h5 {
+	line-height: 0.9em;
+   }
+   body { margin: 0; }
+   #sidebar, #content ,#header,#userinfo { position: fixed; } 
+   #sidebar, #content { overflow: auto; padding: 10px; }
+   #header {
+	width: 100%;
+    height: 80px;
+    background: #FEDFC0; border-bottom: 2px solid #7B5427;
+    right:0;
+   }
+   #userinfo	{
+	   position : fixed;
+		width: 150px; background: #ECF5E4; border-left: 1px solid #231F20;border-right: 1px solid #231F20;border-bottom: 1px solid #231F20;
+		height:80;
+		top: 0px;
+		bottom: 450;
+		right: 0
+   }
+   #header h1 { padding: 20px; margin: 0; }
+   #sidebar { 
+	position : fixed;
+    width: 150px; background: #ECF5E4; border-right: 1px solid #231F20;
+    height:fixed;
+    top: 82px; 
+    bottom: 0; 
+   }
+   #content {
+    top: 82px;
+    left: 170px;
+    bottom: 0; right: 0;
+   }
+  </style>
+ </head>
+<div id="header"><h1>«Этические вопросы искусственного интеллекта»</h1></div>
+
+<div id="sidebar">	
+	<p align="center"><a href="/cabi">Личный кабинет</p></a>
+	<p align="center"><a href="/know">Статья</p></a>
+	<p align="center"><a href="/test">Опрос</p></a>
+</div>
+<div id="userinfo">
+	<h5 class="dline" align="center">Пользователь</h6> 
+	<h5 class="dline" align="center">{{_users_list[_user]['name']}}</h5> 
+	<h5 class="dline" align="center">{{_users_list[_user]['status']}}</h5> 
+</div>
