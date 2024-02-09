@@ -116,7 +116,7 @@
         function setBackground(background) {
             var canvas = document.getElementById('canvas');
             canvas.style.backgroundImage = "url('" + background + "')";
-            // Получаем размер фона
+            // Получаем размеры фона
             var img = new Image();
             img.onload = function() {
                 canvas.style.width = img.width + 'px';
