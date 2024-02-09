@@ -1,5 +1,141 @@
-<div>
-	<h1 align="center">Авторизуйтесь для доступа к сайту</h1>
-	<p align="center"><a href="/regi">Регистрация</p></a>
-	<p align="center"><a href="/login">Войти</p></a>
-</div>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Пример сайдбара и холста с использованием Jinja</title>
+    <style>
+        #sidebar {
+            width: 200px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .icon-container, .background-container {
+            margin-bottom: 10px;
+        }
+        .sidebar-icon, .sidebar-background {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+        #canvas {
+            margin-left: 220px;
+            padding: 20px;
+            border: 2px solid #000;
+            min-height: 300px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        .canvas-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        <div>
+            <h3>Иконки</h3>
+            {% for icon in icons %}
+            <div class="icon-container">
+                <img src="{{ icon }}" class="sidebar-icon" onclick="addIcon('{{ icon }}')" alt="Иконка">
+            </div>
+            {% endfor %}
+        </div>
+        <div>
+            <h3>Фоны</h3>
+            {% for background in backgrounds %}
+            <div class="background-container">
+                <img src="{{ background }}" class="sidebar-background" onclick="setBackground('{{ background }}')" alt="Фон">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div id="canvas">
+        <h2>Холст</h2>
+        <div id="icons-container">
+            <!-- Здесь будут добавляться и перемещаться иконки -->
+        </div>
+    </div>
+    <script>
+        var isDragging = false;
+        var selectedIcon = null;
+        var offsetX, offsetY;
+
+        function addIcon(icon) {
+            var iconsContainer = document.getElementById('icons-container');
+            var newIcon = document.createElement('img');
+            newIcon.src = icon;
+            newIcon.className = "canvas-icon"; // Используем класс для иконок на холсте
+
+            // Найти первое свободное место на оси X
+            var icons = document.getElementsByClassName('canvas-icon');
+            var occupiedX = Array.from(icons).map(icon => icon.offsetLeft + icon.offsetWidth);
+            var minOffsetX = Math.max.apply(null, occupiedX); // Изменено на Math.max
+
+            // Устанавливаем позицию новой иконки
+            newIcon.style.left = minOffsetX + 'px';
+            newIcon.style.top = '0px';
+
+            newIcon.addEventListener('mousedown', function(event) {
+                isDragging = true;
+                selectedIcon = newIcon;
+                offsetX = event.offsetX;
+                offsetY = event.offsetY;
+                event.preventDefault();
+            });
+
+            newIcon.addEventListener('mouseup', function() {
+                isDragging = false;
+                selectedIcon = null;
+            });
+
+            newIcon.addEventListener('mousemove', function(event) {
+                if (isDragging && selectedIcon) {
+                    var canvasRect = document.getElementById('canvas').getBoundingClientRect();
+                    var x = event.clientX - canvasRect.left - offsetX;
+                    var y = event.clientY - canvasRect.top - offsetY;
+                    selectedIcon.style.left = x + 'px';
+                    selectedIcon.style.top = y + 'px';
+                }
+            });
+
+            iconsContainer.appendChild(newIcon);
+        }
+
+        function setBackground(background) {
+            var canvas = document.getElementById('canvas');
+            canvas.style.backgroundImage = "url('" + background + "')";
+            // Получаем размеры фона
+            var img = new Image();
+            img.onload = function() {
+                canvas.style.width = img.width + 'px';
+                canvas.style.height = img.height + 'px';
+            }
+            img.src = background;
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            if (isDragging && selectedIcon) {
+                var canvasRect = document.getElementById('canvas').getBoundingClientRect();
+                var x = event.clientX - canvasRect.left - offsetX;
+                var y = event.clientY - canvasRect.top - offsetY;
+                selectedIcon.style.left = x + 'px';
+                selectedIcon.style.top = y + 'px';
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+            selectedIcon = null;
+        });
+    </script>
+</body>
+</html>
